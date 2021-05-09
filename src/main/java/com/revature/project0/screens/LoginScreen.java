@@ -32,10 +32,11 @@ public class LoginScreen extends Screen {
             password = consoleReader.readLine();
 
             if (username != null && !username.isEmpty() && password != null && !password.isEmpty()){
-                AppUser authenticatedUser= userDao.loginValidation(username,password);
+                AppUser authenticatedUser = userDao.loginValidation(username,password);
                 if (authenticatedUser != null){
-                    System.out.println("Login Succesful!");
+                    System.out.println("Login Successful!");
                 }else{
+                    System.out.println(authenticatedUser);
                     System.out.println("Login failed.");
                 }
             }else{

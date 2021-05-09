@@ -56,7 +56,8 @@ public class UserDAO {
     public AppUser loginValidation(String username,String password){
         AppUser user = null;
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "select * from quizzard.users where username = ? and password = ?";
+
+            String sql = "select * from bigballerbank.customer where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,username);
             pstmt.setString(2,password);
@@ -64,18 +65,18 @@ public class UserDAO {
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()){
                 user = new AppUser();
-                user.setId(rs.getInt("id"));
+                user.setId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
-                user.setAge(rs.getInt("age"));
+                user.setAge(rs.getInt("user_age"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     // TODO implement me: You can only delete an account when signed in

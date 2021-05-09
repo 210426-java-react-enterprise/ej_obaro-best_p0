@@ -4,7 +4,7 @@ import com.revature.project0.screens.Screen;
 
 //Aggregation of multiple screen routers
 public class ScreenRouter {
-    private LinkedList<Screen> screens = new LinkedList<Screen>();
+    private final LinkedList<Screen> screens = new LinkedList<Screen>();
     //builder patern, allows us to chain build
 
     //add indvidual screens to our list

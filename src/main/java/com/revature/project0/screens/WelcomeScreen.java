@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class WelcomeScreen extends Screen{
-    private BufferedReader consoleReader;
-    private ScreenRouter router;
+    private final BufferedReader consoleReader;
+    private final ScreenRouter router;
     public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router){
         super("WelcomeScreen","/welcome");
         this.consoleReader = consoleReader;
@@ -16,8 +16,8 @@ public class WelcomeScreen extends Screen{
 
     @Override
     public void render() {
-        System.out.printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-                "\tWelcome to Quizzard Wizard\n" +
+        System.out.print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "\tWelcome to Big Baller Bank\n" +
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
                 "Please Choose an option from the list below:\n" +
                 "\t(1) Sign Up\n" +
@@ -26,7 +26,7 @@ public class WelcomeScreen extends Screen{
                 "\n:::");
 
         try{
-            System.out.printf(">");
+            System.out.print(">");
             String userSelection = consoleReader.readLine();
             switch(userSelection){
                 case "1":

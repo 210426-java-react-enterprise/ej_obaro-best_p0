@@ -1,7 +1,6 @@
 package com.revature.project0.screens;
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
-
 import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen {
@@ -64,8 +63,6 @@ public class RegisterScreen extends Screen {
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }
-
-
 
     }
 
