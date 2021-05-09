@@ -4,12 +4,13 @@ import com.revature.project0.models.AppUser;
 
 import java.io.BufferedReader;
 
-public class RegisterScreen {
+public class RegisterScreen extends Screen {
 
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
     private BufferedReader consoleReader;
 
     public RegisterScreen(BufferedReader consoleReader) {
+        super("RegisterScreen","/register");
         this.consoleReader = consoleReader;
     }
 
@@ -49,9 +50,11 @@ public class RegisterScreen {
 
             System.out.print("Age: ");
             age = Integer.parseInt(consoleReader.readLine());
+            //force users to make their first deposit upon registering
+
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
-            userDao.saveUserToFile(newUser);
+            userDao.save(newUser);
 
         } catch (NumberFormatException nfe) {
             // do something about these!

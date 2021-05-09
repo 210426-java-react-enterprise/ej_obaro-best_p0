@@ -7,7 +7,10 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private int age;
-
+    private int id;
+    public  AppUser(){
+        super();
+    }
     public AppUser(String username,String password,String email,String firstName,String lastName,int age){
         System.out.println("AppUser invoked!");
         this.username = username;
@@ -16,15 +19,16 @@ public class AppUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+        this.id = id;
     }
     public String getUsername(){
         return username;
     }
+    public void setUsername(String username){ this.username = username; }
 
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -32,7 +36,6 @@ public class AppUser {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -40,7 +43,6 @@ public class AppUser {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -48,7 +50,6 @@ public class AppUser {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -56,10 +57,12 @@ public class AppUser {
     public int getAge() {
         return age;
     }
-
     public void setAge(int age) {
         this.age = age;
     }
+
+    public void setId(int id) { this.id = id; }
+    public int getId() { return id; }
 
     public String toFileString() {
         return String.format("%s;%s;%s;%s;%s;%d", username, password, email, firstName, lastName, age);
