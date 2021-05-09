@@ -1,5 +1,6 @@
 package com.revature.project0;
 import com.revature.project0.util.AppState;
+
 public class Driver {
     private static AppState app = new AppState();
 
