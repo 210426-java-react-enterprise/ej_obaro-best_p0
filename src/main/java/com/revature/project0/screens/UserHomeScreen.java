@@ -32,7 +32,8 @@ public class UserHomeScreen extends Screen {
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                         + "\t+Welcome back, " + currentUser.getFirstName() + "!\n"
                         + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        LinkedList currentUserAccounts = userDAO.getAllCurrentUserAccounts(currentUser);
+        LinkedList currentUserAccounts;
+        currentUserAccounts = userDAO.getAllCurrentUserAccounts(currentUser.getId());
         currentUserAccounts.printLinkedList();
 
         System.out.print(
@@ -48,13 +49,11 @@ public class UserHomeScreen extends Screen {
              userSelection = consoleReader.readLine();
             switch (userSelection) {
                 case "5":
-                    //makes a new
-                    //System.out.println("Navigating to Register Screen...");
                     router.navigate("/newAccount",currentUser);
                     break;
                 case "6":
-                    System.out.println("Navigating to Login Screen...");
-                    router.navigate("/login");
+                    System.out.println("Navigating to Deposit Screen...");
+                    router.navigate("/deposit",currentUser);
                     break;
                 case "7":
                     System.out.println("Exiting Banking App.");

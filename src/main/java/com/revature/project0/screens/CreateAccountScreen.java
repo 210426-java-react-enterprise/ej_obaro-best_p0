@@ -25,7 +25,7 @@ public class CreateAccountScreen extends Screen {
     public void render(AppUser currentUser) {
         //Grab current user's id and send it to userDao
         int userId = currentUser.getId();
-        double balance = 0.00;//
+        double balance=0.00;//
         String accountType;//
         boolean makeFirstDeposit = false;
         String choice;
@@ -36,9 +36,14 @@ public class CreateAccountScreen extends Screen {
 
             System.out.print("Would you like to make your first deposit today?(y/n): ");
             choice = consoleReader.readLine();
-            if (choice.equalsIgnoreCase("y")){
+            if (choice.equalsIgnoreCase("y")) {
                 System.out.print("Amount to be deposited: ");
+                System.out.printf("%d was deposited into your account.\n" +
+                        "Please log back in to access your funds");
                 balance = Double.parseDouble(consoleReader.readLine());
+            }else if (choice.equalsIgnoreCase("n")){
+                balance = 0.00;
+
             }else{
                 System.out.println("Entry invalid. Please log back in and try again !");
             }

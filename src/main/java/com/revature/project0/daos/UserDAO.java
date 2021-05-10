@@ -144,24 +144,24 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
-    public LinkedList getAllCurrentUserAccounts(AppUser currentUser){
+    public LinkedList getAllCurrentUserAccounts(Integer currentUserId){
         //this method will grab all user accounts,store it into UserAccount
         //object and add it to a linkedlist called userAccountLinkedList
         LinkedList<UserAccount> currentUserAccounts = new LinkedList<>();
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            UserAccount userAcocount = null;
+            UserAccount userAccount = null;
             String sql = "select * from bigballerbank.account where user_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,currentUser.getId());
+            pstmt.setInt(1,currentUserId);
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()){
-
-                userAcocount.setAccountId(rs.getInt("account_id"));
-                userAcocount.setUserId(rs.getInt("user_id"));
-                userAcocount.setBalance(rs.getDouble("balance"));
-                userAcocount.setAccountType(rs.getString("account_type"));
-                currentUserAccounts.add(userAcocount);
+                userAccount = new UserAccount();
+                userAccount.setAccountId(rs.getInt("account_id"));
+                userAccount.setUserId(rs.getInt("user_id"));
+                userAccount.setBalance(rs.getDouble("balance"));
+                userAccount.setAccountType(rs.getString("account_type"));
+                currentUserAccounts.add(userAccount);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
