@@ -9,7 +9,7 @@ public class UserAccount {
     public UserAccount(){
         super();
     }
-    public UserAccount(int accountId,int userId, double balance,String accountType){
+    public UserAccount(int userId, double balance,String accountType){
         System.out.println("UserAccount invoked!");
         this.accountId = accountId;
         this.userId = userId;

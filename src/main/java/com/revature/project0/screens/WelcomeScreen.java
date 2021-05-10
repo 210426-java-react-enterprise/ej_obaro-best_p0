@@ -1,4 +1,5 @@
 package com.revature.project0.screens;
+
 import com.revature.project0.util.ScreenRouter;
 import static com.revature.project0.Driver.app;
 import java.io.BufferedReader;
@@ -25,6 +26,7 @@ public class WelcomeScreen extends Screen{
                 "\t(3) Exit" +
                 "\n:::");
 
+
         try{
             System.out.print(">");
             String userSelection = consoleReader.readLine();
@@ -39,7 +41,7 @@ public class WelcomeScreen extends Screen{
                     router.navigate("/login");
                     break;
                 case "3":
-                    System.out.println("Exiting Quizzard App.");
+                    System.out.println("Exiting Banking App.");
                     app().setAppRunning(false);
                     break;
                 default:

@@ -1,10 +1,7 @@
 package com.revature.project0.util;
 
 import com.revature.project0.daos.UserDAO;
-import com.revature.project0.screens.LoginScreen;
-import com.revature.project0.screens.RegisterScreen;
-import com.revature.project0.screens.WelcomeScreen;
-import com.revature.project0.screens.UserHomeScreen;
+import com.revature.project0.screens.*;
 import com.revature.project0.services.UserService;
 import com.revature.project0.models.AppUser;
 import java.io.BufferedReader;
@@ -27,7 +24,9 @@ public class AppState {
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader,router))
                 .addScreen(new LoginScreen(consoleReader,router))
-                .addScreen(new RegisterScreen(consoleReader)).addScreen(new UserHomeScreen(consoleReader,router));
+                .addScreen(new RegisterScreen(consoleReader))
+                .addScreen(new UserHomeScreen(consoleReader,router))
+                .addScreen(new CreateAccountScreen(consoleReader,router));
 
         System.out.println("Application Initialized");
     }

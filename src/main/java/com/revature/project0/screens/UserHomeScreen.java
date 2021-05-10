@@ -1,16 +1,21 @@
 package com.revature.project0.screens;
 
+import com.revature.project0.util.LinkedList;
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
 import com.revature.project0.util.ScreenRouter;
 import java.io.BufferedReader;
+import java.io.IOException;
 
-public class UserHomeScreen extends Screen{
+import static com.revature.project0.Driver.app;
+
+public class UserHomeScreen extends Screen {
     private UserDAO userDAO = new UserDAO();
     private BufferedReader consoleReader;
     private ScreenRouter router;
-    public UserHomeScreen(BufferedReader consoleReader,ScreenRouter router) {
-        super("LoginScreen","/homescreen");
+
+    public UserHomeScreen(BufferedReader consoleReader, ScreenRouter router) {
+        super("LoginScreen", "/homescreen");
         this.consoleReader = consoleReader;
         this.router = router;
     }
@@ -20,9 +25,50 @@ public class UserHomeScreen extends Screen{
     }
 
     @Override
-    public void render(AppUser currentUser){
+    public void render(AppUser currentUser) {
         //testing to see if it has current user
-        System.out.println(currentUser.getFirstName());
+        String userSelection = null;
+        System.out.print(
+                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                        + "\t+Welcome back, " + currentUser.getFirstName() + "!\n"
+                        + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        LinkedList currentUserAccounts = userDAO.getAllCurrentUserAccounts(currentUser);
+        currentUserAccounts.printLinkedList();
 
+        System.out.print(
+                "Please Choose an option from the list below:\n" +
+                        "\t(5) Create Account\n" +
+                        "\t(6) Make a Deposit\n" +
+                        "\t(7) Make a Withdrawl\n" +
+                        "\t(8) Delete Account" +
+                        "\n:::");
+
+        try {
+            System.out.print(">");
+             userSelection = consoleReader.readLine();
+            switch (userSelection) {
+                case "5":
+                    //makes a new
+                    //System.out.println("Navigating to Register Screen...");
+                    router.navigate("/newAccount",currentUser);
+                    break;
+                case "6":
+                    System.out.println("Navigating to Login Screen...");
+                    router.navigate("/login");
+                    break;
+                case "7":
+                    System.out.println("Exiting Banking App.");
+                    app().setAppRunning(false);
+                    break;
+                case "8":
+                    break;
+                default:
+                    System.out.println("Invalid input selected.");
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

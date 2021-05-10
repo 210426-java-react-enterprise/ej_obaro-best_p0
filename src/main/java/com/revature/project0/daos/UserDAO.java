@@ -1,6 +1,7 @@
 package com.revature.project0.daos;
-
+import com.revature.project0.util.LinkedList;
 import com.revature.project0.models.AppUser;
+import com.revature.project0.models.UserAccount;
 import com.revature.project0.util.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -122,5 +123,49 @@ public class UserDAO {
             throwables.printStackTrace();
         }
         return true;
+    }
+                //Mark:: ----ALL USER ACCOUNT METHODS----//
+    public void saveAccount(UserAccount newAccount){
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            String sqlInsertAccount = "insert into bigballerbank.account (user_id, balance, account_type) values (?,?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(sqlInsertAccount,new String[]{"account_id"});
+            pstmt.setInt(1,newAccount.getUserId());
+            pstmt.setDouble(2,newAccount.getBalance());
+            pstmt.setString(3,newAccount.getAccountType());
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted != 0){
+                ResultSet rs = pstmt.getGeneratedKeys();
+                while(rs.next()){
+                    newAccount.setAccountId(rs.getInt("account_id"));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public LinkedList getAllCurrentUserAccounts(AppUser currentUser){
+        //this method will grab all user accounts,store it into UserAccount
+        //object and add it to a linkedlist called userAccountLinkedList
+        LinkedList<UserAccount> currentUserAccounts = new LinkedList<>();
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+            UserAccount userAcocount = null;
+            String sql = "select * from bigballerbank.account where user_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,currentUser.getId());
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+
+                userAcocount.setAccountId(rs.getInt("account_id"));
+                userAcocount.setUserId(rs.getInt("user_id"));
+                userAcocount.setBalance(rs.getDouble("balance"));
+                userAcocount.setAccountType(rs.getString("account_type"));
+                currentUserAccounts.add(userAcocount);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return currentUserAccounts;
     }
 }

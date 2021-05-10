@@ -29,7 +29,7 @@ public class RegisterScreen extends Screen {
         try {
             // risky code that might through an exception
 
-            System.out.println("Register for a new account!");
+            System.out.println("Sign up for B.B.B!");
             System.out.println("+-------------------------+");
 
             System.out.print("First name: ");
