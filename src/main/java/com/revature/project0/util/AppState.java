@@ -4,7 +4,9 @@ import com.revature.project0.daos.UserDAO;
 import com.revature.project0.screens.LoginScreen;
 import com.revature.project0.screens.RegisterScreen;
 import com.revature.project0.screens.WelcomeScreen;
+import com.revature.project0.screens.UserHomeScreen;
 import com.revature.project0.services.UserService;
+import com.revature.project0.models.AppUser;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -24,8 +26,8 @@ public class AppState {
 
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader,router))
-                .addScreen(new LoginScreen(consoleReader))
-                .addScreen(new RegisterScreen(consoleReader));
+                .addScreen(new LoginScreen(consoleReader,router))
+                .addScreen(new RegisterScreen(consoleReader)).addScreen(new UserHomeScreen(consoleReader,router));
 
         System.out.println("Application Initialized");
     }

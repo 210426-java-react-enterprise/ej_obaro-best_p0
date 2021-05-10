@@ -2,19 +2,20 @@ package com.revature.project0.screens;
 
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
-
+import com.revature.project0.util.ScreenRouter;
+import com.revature.project0.screens.UserHomeScreen;
 import java.io.BufferedReader;
 
 
 public class LoginScreen extends Screen {
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
     private BufferedReader consoleReader;
-
-    public LoginScreen(BufferedReader consoleReader) {
+    private ScreenRouter router;
+    public LoginScreen(BufferedReader consoleReader, ScreenRouter router) {
         super("LoginScreen","/login");
         this.consoleReader = consoleReader;
+        this.router = router;
     }
-
     public void render() {
 
         try {
@@ -35,6 +36,8 @@ public class LoginScreen extends Screen {
                 AppUser authenticatedUser = userDao.loginValidation(username,password);
                 if (authenticatedUser != null){
                     System.out.println("Login Successful!");
+                    System.out.println("Navigating to Home Screen...");
+                    router.navigate("/homescreen",authenticatedUser);
                 }else{
                     System.out.println(authenticatedUser);
                     System.out.println("Login failed.");
