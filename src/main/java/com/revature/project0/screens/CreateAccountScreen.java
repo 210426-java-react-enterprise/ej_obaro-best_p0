@@ -1,14 +1,16 @@
 package com.revature.project0.screens;
+
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
 import com.revature.project0.util.ScreenRouter;
 import com.revature.project0.models.UserAccount;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Locale;
+
 
 public class CreateAccountScreen extends Screen {
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
+
+    private UserDAO userDao = new UserDAO();
     private BufferedReader consoleReader;
     private ScreenRouter router;
     public CreateAccountScreen(BufferedReader consoleReader, ScreenRouter router) {
