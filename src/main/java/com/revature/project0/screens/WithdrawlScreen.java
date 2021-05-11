@@ -11,28 +11,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.time.Instant;
 
-public class DepositScreen extends Screen{
+public class WithdrawlScreen extends Screen {
     private UserDAO userDao = new UserDAO();
     private BufferedReader consoleReader;
     private ScreenRouter router;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-
-    public DepositScreen(BufferedReader consoleReader, ScreenRouter router){
-        super("DepositScreen","/deposit");
+    public WithdrawlScreen(BufferedReader consoleReader, ScreenRouter router){
+        super("WithdrawlScreen","/withdrawl");
         this.consoleReader = consoleReader;
         this.router= router;
     }
-
     @Override
     public void render() {
-
     }
-
     @Override
     public void render(AppUser currentUser) {
         Double balance;
-        Double depositAmount;
+        Double withdrawlAmount;
         String accountName;
         Date date = new Date();
         Instant instant = date.toInstant();
@@ -49,18 +45,29 @@ public class DepositScreen extends Screen{
 
                 balance = currentAccount.getBalance();
                 System.out.println(balance);
-                System.out.println("Amount to Deposit:");
+                System.out.println("Amount to Withdraw:");
                 System.out.print(":::>$ ");
-                depositAmount = Double.parseDouble(consoleReader.readLine());
-                balance += depositAmount;
-                System.out.printf("Depositing $%.2f into account named: %s",depositAmount,accountName);
+                withdrawlAmount = Double.parseDouble(consoleReader.readLine());
+
+                //checks for overdraft
+                if (balance - withdrawlAmount < 0){
+                    System.out.println("This transaction will cause you to overdraft\n" +
+                                        "Please enter an amount you can afford lol");
+                    System.out.print(":::>$ ");
+                    withdrawlAmount = Double.parseDouble(consoleReader.readLine());
+                };
+
+                balance -= withdrawlAmount;
+
+                System.out.printf("Withdrawing %.2f into account named: %s \n",withdrawlAmount,accountName);
                 userDao.updateUserBalance(currentUser,accountName,balance);
-                UserTransactionHistory newTransaction = new UserTransactionHistory(currentUser.getId(),"DEPOSIT",depositAmount,String.valueOf(instant),currentAccount.getAccountType());
+                UserTransactionHistory newTransaction = new UserTransactionHistory(currentUser.getId(),"WITHDRAW",withdrawlAmount,String.valueOf(instant),currentAccount.getAccountType());
+
                 userDao.updateTransactionsTable(newTransaction);
 
-                System.out.printf("Your current balance is now: $%f \n",balance);
+                System.out.printf("Your current balance is now: $%.2f \t",balance);
             }else{
-                System.out.printf("You have no accounts called %s",accountName);
+                System.out.printf("You have no accounts called: %s",accountName);
             }
         } catch (IOException e) {
             e.printStackTrace();

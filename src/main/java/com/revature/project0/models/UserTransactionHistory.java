@@ -13,7 +13,7 @@ public class UserTransactionHistory {
         super();
     }
 
-    public UserTransactionHistory(int userId, int transactionId, String transactionType, double transactionAmount, String transactionDate, String accountType, int accountId) {
+    public UserTransactionHistory(int userId, String transactionType, double transactionAmount, String transactionDate, String accountType) {
         this.userId = userId;
         this.transactionId = transactionId;
         this.transactionType = transactionType;

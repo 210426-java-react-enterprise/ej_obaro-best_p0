@@ -41,7 +41,8 @@ public class UserHomeScreen extends Screen {
                         "\t(5) Create Account\n" +
                         "\t(6) Make a Deposit\n" +
                         "\t(7) Make a Withdrawl\n" +
-                        "\t(8) Delete Account" +
+                        "\t(8) View Your Transactions\n" +
+                        "\t(9) Exit Banking App" +
                         "\n:::");
 
         try {
@@ -56,10 +57,16 @@ public class UserHomeScreen extends Screen {
                     router.navigate("/deposit",currentUser);
                     break;
                 case "7":
-                    System.out.println("Exiting Banking App.");
-                    app().setAppRunning(false);
+                    System.out.println("Navigating to Withdrawl Screen...");
+                    router.navigate("/withdrawl",currentUser);
                     break;
                 case "8":
+                    System.out.println("Navigating to Transaction Screen...");
+                    router.navigate("/transaction",currentUser);
+                    break;
+                case"9":
+                    System.out.println("Exiting Banking App.");
+                    app().setAppRunning(false);
                     break;
                 default:
                     System.out.println("Invalid input selected.");

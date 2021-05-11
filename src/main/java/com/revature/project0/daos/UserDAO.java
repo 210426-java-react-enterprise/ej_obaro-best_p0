@@ -6,7 +6,9 @@ import com.revature.project0.models.UserAccount;
 import com.revature.project0.util.ConnectionFactory;
 
 import java.sql.*;
-
+/*TODO make sure to organize userDAO group functionalities
+*  -ADD BUSINESS LOGIC TO PASSWORD
+*  -FIGURE OUT HOW TO STORE PASSWORD SECURELY*/
 public class UserDAO {
     public void save(AppUser newUser){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
@@ -30,28 +32,7 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
-//    public void getTransactionHistory(AppUser user){
-//        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
-//            String sqlInsertUser = "insert into quizzard.users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
-//            PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser,new String[]{"user_id"});
-//            pstmt.setString(1,newUser.getUsername());
-//            pstmt.setString(2,newUser.getPassword());
-//            pstmt.setString(3,newUser.getEmail());
-//            pstmt.setString(4,newUser.getFirstName());
-//            pstmt.setString(5,newUser.getLastName());
-//            pstmt.setInt(6,newUser.getAge());
-//            int rowsInserted = pstmt.executeUpdate();
-//
-//            if (rowsInserted != 0){
-//                ResultSet rs = pstmt.getGeneratedKeys();
-//                while(rs.next()){
-//                    newUser.setId(rs.getInt("user_id"));
-//                }
-//            }
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//    }
+
 
     public AppUser loginValidation(String username,String password){
         AppUser user = null;
@@ -191,32 +172,46 @@ public class UserDAO {
         }
         return currentUserAccounts;
     }
-
+    //TODO: Make sure that the right params are being set in update method DONE
     public void updateUserBalance(AppUser currentUser, String accountName, Double balance) {
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 
-            String sql = "update account set balance = ? where user_id = ? and account_type = ?;";
+            String sql = "update bigballerbank.account set balance = ? where user_id = ? and account_type = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,currentUser.getId());
-            pstmt.setString(2,accountName);
+            pstmt.setDouble(1,balance);
+            pstmt.setInt(2,currentUser.getId());
+            pstmt.setString(3,accountName);
+            pstmt.execute();
+            System.out.println("New balance: " + balance);
     } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public void updateTransactionsTable(String transactionType, AppUser currentUser, UserAccount currentAccount, String date){
+    //TODO: Make sure Transactions table is actual being update properly DONE
+    public void updateTransactionsTable(UserTransactionHistory newTransaction){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 
-            String sql = "bigballerbank.customer (user_id , transaction_type , transaction_date , account_type , account_id ) values (?,?,?,?,?)";
+            String sql = "insert into bigballerbank.transactions (user_id , transaction_type , amount, transaction_date , account_type , account_id ) values (?,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,currentUser.getId());
-            pstmt.setString(2,transactionType);
-            pstmt.setString(3,date);
-            pstmt.setString(4,currentAccount.getAccountType());
+            pstmt.setInt(1,newTransaction.getUserId());
+            pstmt.setString(2,newTransaction.getTransactionType());
+            pstmt.setDouble(3,newTransaction.getTransactionAmount());
+            pstmt.setString(4,newTransaction.getTransactionDate());
+            pstmt.setString(5,newTransaction.getAccountType());
+            pstmt.setInt(6, newTransaction.getAccountId());
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted != 0){
+                ResultSet rs = pstmt.getGeneratedKeys();
+                while(rs.next()){
+                    newTransaction.setTransactionId(rs.getInt("transaction_id"));
+                }
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-
+    //TODO call this method on currentUser in the UserHomeScreen
     public LinkedList getAllTransactions(int currentUserId){
         LinkedList<UserTransactionHistory> currentUserTransactions = new LinkedList<>();
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -242,4 +237,31 @@ public class UserDAO {
         }
         return currentUserTransactions;
     }
+    public LinkedList getTransactions(int currentUserId,String accountName) {
+        LinkedList<UserTransactionHistory> currentUserTransactions = new LinkedList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            UserTransactionHistory userTransaction = null;
+            String sql = "select * from bigballerbank.transactions where user_id = ? and account_Type = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, currentUserId);
+            pstmt.setString(2,accountName);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                userTransaction = new UserTransactionHistory();
+                userTransaction.setAccountId(rs.getInt("account_id"));
+                userTransaction.setUserId(rs.getInt("user_id"));
+                userTransaction.setTransactionId(rs.getInt("transaction_id"));
+                userTransaction.setAccountType(rs.getString("account_type"));
+                userTransaction.setTransactionType(rs.getString("transaction_type"));
+                userTransaction.setTransactionAmount(rs.getDouble("amount"));
+                userTransaction.setTransactionDate(rs.getString("transaction_date"));
+                currentUserTransactions.add(userTransaction);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return currentUserTransactions;
+    }
+
 }
