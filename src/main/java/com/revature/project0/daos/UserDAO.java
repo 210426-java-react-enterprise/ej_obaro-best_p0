@@ -104,6 +104,26 @@ public class UserDAO {
         }
         return true;
     }
+    public Boolean isPasswordSecure(String password){
+        boolean hasLetter = false;
+        boolean hasDigit = false;
+        if (password.length() >= 8){
+            for (int i = 0; i < password.length() ; i++) {
+                char x = password.charAt(i);
+                if (Character.isLetter(x)){
+                    hasLetter = true;
+                } else if (Character.isDigit(x)) {
+
+                    hasDigit = true;
+                }
+                if (hasLetter && hasDigit){
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
                 //Mark:: ----ALL USER ACCOUNT METHODS----//
     public void saveAccount(UserAccount newAccount){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {

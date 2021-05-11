@@ -20,15 +20,10 @@ public class RegisterScreen extends Screen {
         String email;
         String username;
         String password;
+        Boolean strongPassword;
         int age;
 
-        // ok but a little verbose
-//        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-//        BufferedReader consoleReader = new BufferedReader(inputStreamReader);
-
         try {
-            // risky code that might through an exception
-
             System.out.println("Sign up for B.B.B!");
             System.out.println("+-------------------------+");
 
@@ -44,9 +39,14 @@ public class RegisterScreen extends Screen {
             System.out.print("Username: ");
             username = consoleReader.readLine();
 
-            System.out.print("Password: ");
+            System.out.print("Password(at least 8 characters and 1 number: ");
             password = consoleReader.readLine();
-
+            strongPassword = userDao.isPasswordSecure(password);
+            while(!strongPassword){
+                System.out.print("Password(at least 8 characters and 1 number: ");
+                password = consoleReader.readLine();
+                strongPassword = userDao.isPasswordSecure(password);
+            }
             System.out.print("Age: ");
             age = Integer.parseInt(consoleReader.readLine());
             //force users to make their first deposit upon registering
