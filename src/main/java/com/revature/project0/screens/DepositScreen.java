@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.time.Instant;
 
 public class DepositScreen extends Screen{
     private UserDAO userDao = new UserDAO();
@@ -32,6 +33,9 @@ public class DepositScreen extends Screen{
         Double balance;
         Double depositAmount;
         String accountName;
+        Date date = new Date();
+        Instant instant = date.toInstant();
+
 
         try{
             System.out.println("Name/Type of Account:");
@@ -45,13 +49,13 @@ public class DepositScreen extends Screen{
                 balance = currentAccount.getBalance();
                 System.out.println(balance);
                 System.out.println("Amount to Deposit:");
-                System.out.print(":::> $");
+                System.out.print(":::>$ ");
                 depositAmount = Double.parseDouble(consoleReader.readLine());
                 balance += depositAmount;
                 userDao.updateUserBalance(currentUser,accountName,balance);
-                System.out.printf("Your current balance is now: $%d",balance);
-                Date date = new Date();
-                userDao.updateTransactionsTable("Deposit", currentUser,currentAccount, (java.sql.Date) date);
+                userDao.updateTransactionsTable("Deposit", currentUser,currentAccount, String.valueOf(instant));
+
+                System.out.printf("Your current balance is now: $%f \n",balance);
             }else{
                 System.out.printf("You have no accounts called %s",accountName);
             }

@@ -203,14 +203,14 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
-    public void updateTransactionsTable(String transactionType, AppUser currentUser, UserAccount currentAccount, Date date){
+    public void updateTransactionsTable(String transactionType, AppUser currentUser, UserAccount currentAccount, String date){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 
             String sql = "bigballerbank.customer (user_id , transaction_type , transaction_date , account_type , account_id ) values (?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,currentUser.getId());
             pstmt.setString(2,transactionType);
-            pstmt.setDate(3,date);
+            pstmt.setString(3,date);
             pstmt.setString(4,currentAccount.getAccountType());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -234,7 +234,7 @@ public class UserDAO {
                 userTransaction.setAccountType(rs.getString("account_type"));
                 userTransaction.setTransactionType(rs.getString("transaction_type"));
                 userTransaction.setTransactionAmount(rs.getDouble("amount"));
-                userTransaction.setTransactionDate(rs.getDate("transaction_date"));
+                userTransaction.setTransactionDate(rs.getString("transaction_date"));
                 currentUserTransactions.add(userTransaction);
             }
         } catch (SQLException throwables) {

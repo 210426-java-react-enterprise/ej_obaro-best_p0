@@ -1,12 +1,11 @@
 package com.revature.project0.models;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 public class UserTransactionHistory {
     private int userId;
     private int transactionId;
     private String transactionType;
     private double transactionAmount;
-    private Date transactionDate;
+    private String transactionDate;
     private String accountType;
     private int accountId;
 
@@ -14,7 +13,7 @@ public class UserTransactionHistory {
         super();
     }
 
-    public UserTransactionHistory(int userId, int transactionId, String transactionType, double transactionAmount, Date transactionDate, String accountType, int accountId) {
+    public UserTransactionHistory(int userId, int transactionId, String transactionType, double transactionAmount, String transactionDate, String accountType, int accountId) {
         this.userId = userId;
         this.transactionId = transactionId;
         this.transactionType = transactionType;
@@ -56,11 +55,11 @@ public class UserTransactionHistory {
         this.transactionAmount = transactionAmount;
     }
 
-    public Date getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
 
