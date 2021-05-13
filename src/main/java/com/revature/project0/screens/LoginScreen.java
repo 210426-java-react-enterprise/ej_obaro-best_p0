@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 
 
 public class LoginScreen extends Screen {
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
+    private UserDAO userDao = new UserDAO();
     private BufferedReader consoleReader;
     private ScreenRouter router;
     public LoginScreen(BufferedReader consoleReader, ScreenRouter router) {
@@ -21,7 +21,6 @@ public class LoginScreen extends Screen {
         try {
             String username;
             String password;
-            // risky code that might through an exception
 
             System.out.println("Welcome Back! Login Below:");
             System.out.println("+-------------------------+");
@@ -31,7 +30,7 @@ public class LoginScreen extends Screen {
 
             System.out.print("Password: ");
             password = consoleReader.readLine();
-
+            //Checks for Valid User
             if (username != null && !username.isEmpty() && password != null && !password.isEmpty()){
                 AppUser authenticatedUser = userDao.loginValidation(username,password);
                 if (authenticatedUser != null){

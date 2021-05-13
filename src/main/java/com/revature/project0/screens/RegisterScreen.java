@@ -2,15 +2,19 @@ package com.revature.project0.screens;
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
 import java.io.BufferedReader;
+import com.revature.project0.services.UserService;
+import com.revature.project0.exception.*;
 
 public class RegisterScreen extends Screen {
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
+    private UserDAO userDao = new UserDAO();
+    private UserService userService;
     private BufferedReader consoleReader;
 
-    public RegisterScreen(BufferedReader consoleReader) {
+    public RegisterScreen(BufferedReader consoleReader, UserService userService) {
         super("RegisterScreen","/register");
         this.consoleReader = consoleReader;
+        this.userService = userService;
     }
 
     public void render() {
@@ -42,24 +46,27 @@ public class RegisterScreen extends Screen {
             System.out.print("Password(at least 8 characters and 1 number: ");
             password = consoleReader.readLine();
             strongPassword = userDao.isPasswordSecure(password);
-            while(!strongPassword){
+            while (!strongPassword) {
                 System.out.print("Password(at least 8 characters and 1 number: ");
                 password = consoleReader.readLine();
                 strongPassword = userDao.isPasswordSecure(password);
             }
             System.out.print("Age: ");
             age = Integer.parseInt(consoleReader.readLine());
-            //force users to make their first deposit upon registering
 
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
-            userDao.save(newUser);
+            //userDao.save(newUser);
+            userService.register(newUser);
 
         } catch (NumberFormatException nfe) {
             // do something about these!
             System.err.println("You provided an incorrect value for your age! Please try again!");
             this.render(); // this breaks some stuff! we will need to fix this
-        } catch (Exception e) {
+        } catch (InvalidRequestException e){
+            System.out.println("This is an invalid request");
+            //e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }

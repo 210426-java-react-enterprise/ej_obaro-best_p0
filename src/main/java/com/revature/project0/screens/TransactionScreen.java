@@ -14,7 +14,7 @@ public class TransactionScreen extends Screen{
     private UserDAO userDao = new UserDAO();
     private BufferedReader consoleReader;
     private ScreenRouter router;
-
+    //Better name: TransactionHistoryScreen
     public TransactionScreen(BufferedReader consoleReader, ScreenRouter router) {
         super("Transaction Screen","/transaction");
         this.consoleReader = consoleReader;
@@ -25,8 +25,10 @@ public class TransactionScreen extends Screen{
     public void render() {
 
     }
+
     @Override
     public void render(AppUser currentUser){
+        //User can choose to view all transactions or transactions for specified account name
         String userChoice;
         LinkedList accountHistory;
         try{
@@ -35,7 +37,9 @@ public class TransactionScreen extends Screen{
             if (userChoice.equalsIgnoreCase("y")){
                 accountHistory = userDao.getAllTransactions(currentUser.getId());
                 accountHistory.printLinkedList();
-            }else if (userChoice.equalsIgnoreCase("n")){
+            }
+            //Needs to handle case in which Account Name does not exist
+            else if (userChoice.equalsIgnoreCase("n")){
                 String accountName;
                 System.out.println("Name/Type of Account:");
                 accountName = consoleReader.readLine();

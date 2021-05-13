@@ -26,16 +26,20 @@ public class UserHomeScreen extends Screen {
 
     @Override
     public void render(AppUser currentUser) {
-        //testing to see if it has current user
+
         String userSelection = null;
         System.out.print(
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                         + "\t+Welcome back, " + currentUser.getFirstName() + "!\n"
                         + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        //This block of code displays a (L)List of all of their available accounts
         LinkedList currentUserAccounts;
-        currentUserAccounts = userDAO.getAllCurrentUserAccounts(currentUser.getId());
-        currentUserAccounts.printLinkedList();
+        currentUserAccounts = userDAO.getAllCurrentUserAccounts(currentUser);
+        if (!currentUserAccounts.isEmpty()){
+            currentUserAccounts.printLinkedList();
+        }
 
+        //Displays Home Screen Menu
         System.out.print(
                 "Please Choose an option from the list below:\n" +
                         "\t(5) Create Account\n" +
@@ -44,7 +48,7 @@ public class UserHomeScreen extends Screen {
                         "\t(8) View Your Transactions\n" +
                         "\t(9) Exit Banking App" +
                         "\n:::");
-
+        //Attempts to route to user's chosen screen
         try {
             System.out.print(">");
              userSelection = consoleReader.readLine();
@@ -74,7 +78,8 @@ public class UserHomeScreen extends Screen {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Input Output Exception Raised @UserHomeScreen");
         }
     }
 }

@@ -63,9 +63,17 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains() {
+    public boolean contains(T data) {
+        Node<T> runner = head;
+        for(int i = 0; i < size; i++){
+            if(runner.data == data){
+                return true;
+            }
+            runner = runner.nextNode;
+        }
         return false;
     }
+
 
     @Override
     public int size() {
@@ -101,5 +109,39 @@ public class LinkedList<T> implements List<T> {
             this.nextNode = nextNode;
             this.prevNode = prevNode;
         }
+
+    }
+    public T poll(){
+        if (head == null){
+            return null;
+        }
+        T soughtData = head.data;
+        head = head.nextNode;
+        if (head != null){
+            head.prevNode = null;
+        }else{
+            tail = null;
+        }
+        size--;
+
+        return soughtData;
+    }
+    public T peek(){
+        return head.data;
+    }
+    public boolean remove(T data){
+        Node<T> runner = head;
+        for (int i = 0; i < size; i++){
+            if (runner.data == data){
+                runner.prevNode = runner.nextNode;
+                runner.nextNode.prevNode = runner.prevNode;
+                return true;
+            }
+            runner = runner.nextNode;
+        }
+        return false;
+    }
+    public boolean isEmpty(){
+        return head == null && tail == null;
     }
 }

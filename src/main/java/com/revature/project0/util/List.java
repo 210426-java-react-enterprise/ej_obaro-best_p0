@@ -9,7 +9,7 @@ public interface List<T> {
     void add(T data);
     T get(int index);
     T pop();
-    boolean contains();
+    boolean contains(T data);
     int size();
     void printLinkedList();
 }

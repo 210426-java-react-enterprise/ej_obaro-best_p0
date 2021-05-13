@@ -11,19 +11,22 @@ public class UserService {
         this.userDao = userDao;
     }
     public void register(AppUser newUser){
-        //valid dates entries upon registration using our own custom exceptions
+        //validates entries upon registration using our own custom exceptions
         if (!isUserValid(newUser)){
             throw new InvalidRequestException("Invalid new user data provided! ");
         }
         if (!userDao.isUsernameAvailible(newUser.getUsername())){
-            throw new ResourcePersistenceException("Username taken");
+            throw new ResourcePersistenceException("Username taken.");
         }
-        if (!userDao.isEmailAvailible(newUser.getUsername())){
-            throw new ResourcePersistenceException("Email has been used already");
+        if (!userDao.isEmailAvailible(newUser.getEmail())){
+            throw new ResourcePersistenceException("Email has already been used. ");
+        }
+        if (!userDao.isPasswordSecure(newUser.getPassword())){
+            throw new ResourcePersistenceException("Password is not secure enough. ");
         }
         userDao.save(newUser);
     }
-
+    //Makes sure user info input is valid
     public boolean isUserValid(AppUser user){
         if (user == null) return false;
         if (user.getUsername()==null|| user.getUsername().trim().isEmpty() || user.getUsername().length() > 20 )  return false;
@@ -34,5 +37,6 @@ public class UserService {
         if (user.getAge()<0 )  return false;
         return true;
     }
+
 }
 

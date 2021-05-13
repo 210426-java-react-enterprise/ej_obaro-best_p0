@@ -14,7 +14,7 @@ public class WelcomeScreen extends Screen{
         this.router = router;
 
     }
-
+    //First Screen. Allows user to sign up, register or exit
     @Override
     public void render() {
         System.out.print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +

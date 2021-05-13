@@ -1,7 +1,7 @@
 package com.revature.project0.screens;
 
 import com.revature.project0.models.AppUser;
-
+//stencil for Screens
 public abstract class Screen {
     private AppUser user;
     protected String name;

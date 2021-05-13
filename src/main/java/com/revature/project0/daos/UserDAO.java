@@ -32,8 +32,61 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
+    /**MARK::-----USER VALIDATION METHODS-----**/
+    //Checks secure password, not standard but works for now
+    public Boolean isPasswordSecure(String password){
+        boolean hasLetter = false;
+        boolean hasDigit = false;
+        if (password.length() >= 8){
+            for (int i = 0; i < password.length() ; i++) {
+                char x = password.charAt(i);
+                if (Character.isLetter(x)){
+                    hasLetter = true;
+                }
+                if (Character.isDigit(x)) {
+                    hasDigit = true;
+                }
+                if (hasLetter && hasDigit){
+                    return true;
+                }
 
+            }
+        }
+        return false;
+    }
+    //Checks whether or not an email has been used already @EJ: You spelled 'available' wrong lol
+    public Boolean isEmailAvailible(String email){
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "select * from bigballerbank.customer where email = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,email);
+            ResultSet rs = pstmt.executeQuery();
 
+            if(rs.next()){
+                return false;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+    //Checks if username has been taken @EJ: Do you know how to spell?
+    public Boolean isUsernameAvailible(String username){
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "select * from bigballerbank.customer where username = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return false;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+    //Checks to see if user account exists in DB
     public AppUser loginValidation(String username,String password){
         AppUser user = null;
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -60,71 +113,24 @@ public class UserDAO {
         return user;
     }
 
-    // TODO implement me: You can only delete an account when signed in
-    public void deleteAccount(AppUser user){
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "delete * from bigballerbank.users where username = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,user.getId());
+//    // TODO implement me: You can only delete an account when signed in
+//    public void deleteAccount(AppUser user){
+//        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+//            String sql = "delete * from bigballerbank.users where username = ?";
+//            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            pstmt.setInt(1,user.getId());
+//
+//
+//            ResultSet rs = pstmt.executeQuery();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
-            ResultSet rs = pstmt.executeQuery();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public Boolean isEmailAvailible(String email){
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "select * from bigballerbank.users where email = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,email);
-            ResultSet rs = pstmt.executeQuery();
-
-            if(rs.next()){
-                return false;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return true;
-    }
-    public Boolean isUsernameAvailible(String username){
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "select * from bigballerbank.users where username = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,username);
-            ResultSet rs = pstmt.executeQuery();
-
-            if(rs.next()){
-                return false;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return true;
-    }
-    public Boolean isPasswordSecure(String password){
-        boolean hasLetter = false;
-        boolean hasDigit = false;
-        if (password.length() >= 8){
-            for (int i = 0; i < password.length() ; i++) {
-                char x = password.charAt(i);
-                if (Character.isLetter(x)){
-                    hasLetter = true;
-                } else if (Character.isDigit(x)) {
-
-                    hasDigit = true;
-                }
-                if (hasLetter && hasDigit){
-                    return true;
-                }
-
-            }
-        }
-        return false;
-    }
-                //Mark:: ----ALL USER ACCOUNT METHODS----//
+    /**Mark:: ----ALL USER ACCOUNT METHODS----**/
+    //Saves a creation of new account
     public void saveAccount(UserAccount newAccount){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
             String sqlInsertAccount = "insert into bigballerbank.account (user_id, balance, account_type) values (?,?,?)";
@@ -144,6 +150,7 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
+    //Grabs Information for specified userAccount
     public UserAccount getUserAccount(String accountName,int userId){
         UserAccount userAccount = null;
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -167,8 +174,8 @@ public class UserDAO {
             }
             return userAccount;
         }
-
-    public LinkedList getAllCurrentUserAccounts(Integer currentUserId){
+    //Grabs all user accounts to be displayed when they log in succesfully
+    public LinkedList getAllCurrentUserAccounts(AppUser currentUser){
         //this method will grab all user accounts,store it into UserAccount
         //object and add it to a linkedlist called userAccountLinkedList
         LinkedList<UserAccount> currentUserAccounts = new LinkedList<>();
@@ -176,7 +183,7 @@ public class UserDAO {
             UserAccount userAccount = null;
             String sql = "select * from bigballerbank.account where user_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,currentUserId);
+            pstmt.setInt(1,currentUser.getId());
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()){
@@ -192,7 +199,7 @@ public class UserDAO {
         }
         return currentUserAccounts;
     }
-    //TODO: Make sure that the right params are being set in update method DONE
+    //Updates user's balance after a transaction has been made
     public void updateUserBalance(AppUser currentUser, String accountName, Double balance) {
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 
@@ -207,7 +214,7 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
-    //TODO: Make sure Transactions table is actual being update properly DONE
+    //Updates transaction table after each transaction
     public void updateTransactionsTable(UserTransactionHistory newTransaction){
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 
@@ -231,7 +238,7 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
-    //TODO call this method on currentUser in the UserHomeScreen
+    //Grabs all transactions upon request
     public LinkedList getAllTransactions(int currentUserId){
         LinkedList<UserTransactionHistory> currentUserTransactions = new LinkedList<>();
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -257,6 +264,7 @@ public class UserDAO {
         }
         return currentUserTransactions;
     }
+    //grabs transaction history on specified accounts upon request
     public LinkedList getTransactions(int currentUserId,String accountName) {
         LinkedList<UserTransactionHistory> currentUserTransactions = new LinkedList<>();
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
@@ -283,5 +291,6 @@ public class UserDAO {
         }
         return currentUserTransactions;
     }
+
 
 }

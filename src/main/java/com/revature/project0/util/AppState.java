@@ -24,7 +24,7 @@ public class AppState {
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader,router))
                 .addScreen(new LoginScreen(consoleReader,router))
-                .addScreen(new RegisterScreen(consoleReader))
+                .addScreen(new RegisterScreen(consoleReader,userService))
                 .addScreen(new UserHomeScreen(consoleReader,router))
                 .addScreen(new CreateAccountScreen(consoleReader,router))
                 .addScreen(new DepositScreen(consoleReader,router))
