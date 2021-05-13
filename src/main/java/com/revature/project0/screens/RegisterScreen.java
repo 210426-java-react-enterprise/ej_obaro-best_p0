@@ -25,6 +25,8 @@ public class RegisterScreen extends Screen {
         String username;
         String password;
         Boolean strongPassword;
+        Boolean isEmailAvailible;
+        Boolean isUsernameAvailible;
         int age;
 
         try {
@@ -43,7 +45,7 @@ public class RegisterScreen extends Screen {
             System.out.print("Username: ");
             username = consoleReader.readLine();
 
-            System.out.print("Password(at least 8 characters and 1 number: ");
+            System.out.print("Password: ");
             password = consoleReader.readLine();
             strongPassword = userDao.isPasswordSecure(password);
             while (!strongPassword) {
@@ -58,7 +60,7 @@ public class RegisterScreen extends Screen {
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             //userDao.save(newUser);
             userService.register(newUser);
-
+            System.out.println("Registration Succesful");
         } catch (NumberFormatException nfe) {
             // do something about these!
             System.err.println("You provided an incorrect value for your age! Please try again!");
@@ -67,6 +69,7 @@ public class RegisterScreen extends Screen {
             System.out.println("This is an invalid request");
             //e.printStackTrace();
         }catch (Exception e) {
+            System.err.println("IOException in register screen");
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }

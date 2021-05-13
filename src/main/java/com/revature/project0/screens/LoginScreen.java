@@ -16,6 +16,7 @@ public class LoginScreen extends Screen {
         this.consoleReader = consoleReader;
         this.router = router;
     }
+
     public void render() {
 
         try {

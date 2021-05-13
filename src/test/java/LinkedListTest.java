@@ -59,6 +59,13 @@ public class LinkedListTest {
         Assert.assertEquals(eSize,aSize);
 
     }
+    @Test
+    public void testWithNonNullList(){
+        sut.add("data1");
+        Boolean eResult = true;
+        Boolean aResult = sut.contains("data1");
+        Assert.assertEquals(eResult,aResult);
+    }
     @Test(expected = Exception.class)
     public void testPeekWithEmptyList(){
         //arrange-blank
@@ -77,6 +84,13 @@ public class LinkedListTest {
         Assert.assertEquals(eResult,aResult);
     }
     @Test
+    public void testIsEmpty(){
+        sut.add("data1");
+        boolean eResults = false;
+        boolean aResult = sut.isEmpty();
+        Assert.assertEquals(eResults,aResult);
+    }
+    @Test
     public void testContainsWithEmptyList(){
         //arrange-blank
         Boolean eResult = false;
@@ -84,5 +98,14 @@ public class LinkedListTest {
         //Assert
         Assert.assertEquals(eResult,aResult);
     }
+    @Test
+    public void testPopWithNull(){
+        //arrange-blank
+        //act
+        String aResult = sut.pop();
+        //Assert
+        Assert.assertNull(aResult);
+    }
+
 
 }

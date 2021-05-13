@@ -85,7 +85,7 @@ public class UserTransactionHistory {
         sb.append("userId='").append(userId).append('\'');
         sb.append(", transactionID='").append(transactionId).append('\'');
         sb.append(", transactionType='").append(transactionType).append('\'');
-        sb.append(", transactionAmount='").append(transactionAmount).append('\'');
+        sb.append(", transactionAmount= $'").append(transactionAmount).append('\'');
         sb.append(", transactionDate='").append(transactionDate).append('\'');
         sb.append(", accountType=").append(accountType);
         sb.append(", accountId=").append(accountId);

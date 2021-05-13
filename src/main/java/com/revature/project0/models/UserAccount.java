@@ -53,7 +53,7 @@ public class UserAccount {
         final StringBuilder sb = new StringBuilder("UserAccount{");
         sb.append(" accountId='").append(accountId).append('\'');
         sb.append(", userId='").append(userId).append('\'');
-        sb.append(", balance='").append(balance).append('\'');
+        sb.append(", balance= $'").append(balance).append('\'');
         sb.append(", accountType='").append(accountType).append('\'');
         sb.append('}');
         return sb.toString();
