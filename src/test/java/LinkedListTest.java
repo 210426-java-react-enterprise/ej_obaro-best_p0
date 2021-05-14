@@ -1,4 +1,4 @@
-import com.revature.project0.util.LinkedList;
+import com.revature.project0.util.structures.LinkedList;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;

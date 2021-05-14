@@ -1,9 +1,7 @@
 package com.revature.project0.screens;
 import com.revature.project0.daos.UserDAO;
 import com.revature.project0.models.AppUser;
-import com.revature.project0.models.UserAccount;
-import com.revature.project0.models.UserTransactionHistory;
-import com.revature.project0.util.LinkedList;
+import com.revature.project0.util.structures.LinkedList;
 import com.revature.project0.util.ScreenRouter;
 import java.io.BufferedReader;
 import java.io.IOException;
