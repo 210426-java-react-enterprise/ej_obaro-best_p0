@@ -1,13 +1,28 @@
 package com.revature.project0.models;
-
+//@Entity(name = "app_users")
 public class AppUser {
+    //@Column(name= "username")
     private String username;
+
+    //@Column(name= "password")
     private String password;
+
+    //@Column(name = "email")
     private String email;
+
+    //@Column(name = "first_name")
     private String firstName;
+
+    //@Column(name "last_name")
     private String lastName;
+
+    //@Column(name = "age")
     private int age;
+
+    //@Id
+    //@Column(name= "user_id")
     private int id;
+
     public  AppUser(){
         super();
     }
