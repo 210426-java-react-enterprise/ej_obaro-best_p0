@@ -1,9 +1,19 @@
 package com.revature.project0.models;
 
+// @Table
+// @Entity(name = "account")
 public class UserAccount {
+    // @Id
+    // @Column(name = "account_id")
     private int accountId;
+
+    // @Column(name = "user_id")
     private int userId;
+
+    // @Column(name = "balance_id")
     private double balance;
+
+    // @Column(name = "account_type")
     private String accountType;
 
     public UserAccount(){

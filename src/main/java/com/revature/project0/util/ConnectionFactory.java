@@ -39,6 +39,8 @@ public class ConnectionFactory {
 
     //this function loads our properties file (which holds our database credentials)
     private ConnectionFactory(){
+        /*
+        // commented out because we're using system variables
         try {
             props.load(new FileReader("src/main/resources/application.properties"));
         } catch (FileNotFoundException e) {
@@ -46,16 +48,23 @@ public class ConnectionFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     public Connection getConnection(){
         Connection conn = null;
         try{
-
+            /*
             conn = DriverManager.getConnection(
                     props.getProperty("host-url"),
                     props.getProperty("username"),
                     props.getProperty("password")
+            );
+            */
+            conn = DriverManager.getConnection(
+                    System.getenv("host-url"),
+                    System.getenv("username"),
+                    System.getenv("password")
             );
 
         }catch(SQLException sqle){

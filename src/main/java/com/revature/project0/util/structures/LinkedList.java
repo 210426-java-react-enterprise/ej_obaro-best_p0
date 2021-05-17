@@ -155,4 +155,33 @@ public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
         }
     }
 
+    public T pop(){
+        if (head == null){
+            return null;
+        }
+        T soughtData = head.data;
+        head = head.nextNode;
+
+        if (head != null){
+            head.prevNode = null;
+        }else{
+            tail = null;
+        }
+        size--;
+
+        return  soughtData;
+    }
+
+    //prints all the nodes in our linked list
+    public void printLinkedList() {
+        Node current = head;
+        if (head == null) {
+            System.out.println("Doubly linked list is empty");
+            return;
+        }
+        while(current != null){
+            System.out.println(current.data+" ");
+            current = current.nextNode;
+        }
+    }
 }
