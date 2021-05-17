@@ -61,11 +61,13 @@ public class ConnectionFactory {
                     System.getenv("password")
             );
             */
+
             conn = DriverManager.getConnection(
                     System.getenv("host-url"),
                     System.getenv("username"),
                     System.getenv("password")
             );
+
 
         }catch(SQLException sqle){
             sqle.printStackTrace();
