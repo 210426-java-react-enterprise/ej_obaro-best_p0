@@ -145,6 +145,10 @@ public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
         };
     }
 
+    public void printLinkedList(){
+        System.out.println("print linked list");
+    }
+
     private static class Node<T> {
         T data;
         Node<T> nextNode;

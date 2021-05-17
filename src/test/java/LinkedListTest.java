@@ -98,14 +98,14 @@ public class LinkedListTest {
         //Assert
         Assert.assertEquals(eResult,aResult);
     }
-    @Test
-    public void testPopWithNull(){
-        //arrange-blank
-        //act
-        String aResult = sut.pop();
-        //Assert
-        Assert.assertNull(aResult);
-    }
+//    @Test
+//    public void testPopWithNull(){
+//        //arrange-blank
+//        //act
+//        String aResult = sut.pop();
+//        //Assert
+//        Assert.assertNull(aResult);
+//    }
 
 
 }

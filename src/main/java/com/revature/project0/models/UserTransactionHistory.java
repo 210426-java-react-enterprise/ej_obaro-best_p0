@@ -1,12 +1,23 @@
 package com.revature.project0.models;
 import java.util.Date;
+
+//@Entity
+//@Table(name = "transaction")
 public class UserTransactionHistory {
+    //@Id
+    //@Column(name = "user_id")
     private int userId;
+    //@Column(name = "transaction_id", nullable = false)
     private int transactionId;
+    //@Column(name = "transactionType", nullable = false)
     private String transactionType;
+    //@Column(name = "transactionAmount", nullable = false)
     private double transactionAmount;
+    //@Column(name = "transactionDate", nullable = false)
     private String transactionDate;
+    //@Column(name = "accountType, nullable = false)
     private String accountType;
+    //@Column(name = "accountId")
     private int accountId;
 
     public UserTransactionHistory() {

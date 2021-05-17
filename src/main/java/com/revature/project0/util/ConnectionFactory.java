@@ -52,11 +52,13 @@ public class ConnectionFactory {
         Connection conn = null;
         try{
 
+
             conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password")
+                    System.getenv("host-url"),
+                    System.getenv("username"),
+                    System.getenv("password")
             );
+
 
         }catch(SQLException sqle){
             sqle.printStackTrace();
