@@ -56,9 +56,9 @@ public class ConnectionFactory {
         try{
             /*
             conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password")
+                    System.getenv("host-url"),
+                    System.getenv("username"),
+                    System.getenv("password")
             );
             */
             conn = DriverManager.getConnection(
